@@ -21,7 +21,7 @@ public class MainActivity extends Activity {
         btnRun.setOnClickListener(v -> {
             String input = etHz.getText().toString();
             if (input.isEmpty()) {
-                Toast.makeText(this, "Isi dulu Hz-nya!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Isi angka Hz!", Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -33,30 +33,27 @@ public class MainActivity extends Activity {
                 Display.Mode[] modes = display.getSupportedModes();
                 
                 Display.Mode targetMode = null;
-                float maxSupportedHz = 60;
+                StringBuilder supportedList = new StringBuilder();
 
-                // Cari mode yang pas dan cari tahu Hz tertinggi yang didukung hardware
                 for (Display.Mode mode : modes) {
-                    if (mode.getRefreshRate() > maxSupportedHz) {
-                        maxSupportedHz = mode.getRefreshRate();
-                    }
-                    if ((int)mode.getRefreshRate() == targetHz) {
+                    int currentModeHz = (int)mode.getRefreshRate();
+                    supportedList.append(currentModeHz).append(" ");
+                    
+                    if (currentModeHz == targetHz) {
                         targetMode = mode;
                     }
                 }
 
-                // Cek apakah targetHz masuk akal
-                if (targetHz > (int)maxSupportedHz) {
-                    Toast.makeText(this, "Error: HP lu cuma support sampe " + (int)maxSupportedHz + "Hz!", Toast.LENGTH_LONG).show();
-                } else if (targetMode != null) {
+                if (targetMode != null) {
                     params.preferredDisplayModeId = targetMode.getModeId();
                     w.setAttributes(params);
-                    Toast.makeText(this, "Berhasil Force ke " + targetHz + "Hz", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Berhasil! Sekarang jalan di " + targetHz + "Hz", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(this, "Mode " + targetHz + "Hz tidak tersedia di sistem ini", Toast.LENGTH_LONG).show();
+                    // Jika Hz yang diminta tidak ada di list sistem
+                    Toast.makeText(this, "HP lu nggak dukung " + targetHz + "Hz. Mode tersedia: " + supportedList.toString(), Toast.LENGTH_LONG).show();
                 }
             } catch (Exception e) {
-                Toast.makeText(this, "Gagal: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
