@@ -3,10 +3,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <EditText
+        android:id="@+id/et_hz"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Masukkan Hz (contoh: 90, 120, 144)"
+        android:inputType="number"
+        android:textAlignment="center" />
+
     <Button
-        android:id="@+id/btn144"
+        android:id="@+id/btn_run"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Force 144Hz Now!" />
+        android:layout_marginTop="20dp"
+        android:text="RUN FORCE HZ" />
 </LinearLayout>
